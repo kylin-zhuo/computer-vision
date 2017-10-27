@@ -1,3 +1,5 @@
 # computer-vision
 
-Exercises and notes about the course Computer Vision @illinois tech
+Fall 2017 Computer Vision
+
+@Copywrite Kylin^${\r}$ 2017
