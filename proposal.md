@@ -1,53 +1,55 @@
-## Project proposal
+<center>Fall 2017 CS512 Computer Vision project proposal</center>
 
-### 1. Problem statement
-
-Content based image retrieval (CBIR) has been an active topic in the last decades. One of the most important issues in image retrieval is the feature extraction and representation. Color, texture and shape features are the most straightforward ones in image feature extraction, such as color histogram/color correlograms, grey level co-occurrence matrices(GLCM), etc. Besides, most existing approaches have adopted the low-level visual features such as SIFT descriptors via bag-of-words encoding, vector locally aggregated descriptors (VLAD) or Fisher vectors (FV).
-
-Recently, convolutional neural network (CNN) has become a powerful tool for tackling on the image classification problems. By training multiple layers of convolutional filters, CNNs are able to learn the complex features of the images automatically and demonstrated superior performance compared to the low-level features.
-
-Nevertheless, there are still problems unaddressed in the implementation of image retrieval with CNNs. Firstly, the CNNs by default are trained for classification tasks which utilize the features obtained from the final layer for the decision making, however, this procedure does not preserve the local characteristics of the objects at the instance level well. And this has questioned that whether it is best to directly extract features from the final layer or higher layers for instance-level image retrieval, where the different objects from the same category should be separated. Secondly, the assumption that all the test images have the same size and scale is not valid. Therefore, the question is left that how to deal with the images with different scales and sizes when they are passing through the neural network.
+# Implementation of Deep Neural Network to Describe the Image Contents
+<br>
 
 
-### 2. Methodologies
-#### 2.1 Convolutional neural network
+
+<br><br><br>
+
+## Research Paper
+
+Show and Tell: Lessons learned from the 2015 MSCOCO Image Captioning Challenge
+IEEE Transactions on Pattern Analysis and Machine Intelligence ( Volume: PP, Issue: 99 , July 2016 )
+
+## 1. Problem statement
+
+Content based image retrieval (CBIR) has become an active topic in the last decades. One application of interest is to implement the captioning of the image automatically after extraction of image features (encoding) and apply the sequential model to generate sentence description from the features (decoding).
+
+Recently, convolutional neural network (CNN) has become a powerful tool for tackling on the image classification problems. By training multiple layers of convolutional filters, CNNs are able to learn the complex features of the images automatically and demonstrated superior performance compared to the low-level features. LSTMs (long short term memory) which are generally used for sequence modeling of tasks, will be trained as a language model conditioned on image encoding.
+
+In this project, the objective is to generate the descriptions of input images.
+
+## 2. Methodologies
+
+The approach is divided into encoding the image with CNN and decoding the features with long-short term memory (LSTM) to generate natural language description.
+
+#### 2.1 Encode - Convolutional neural network
 
 Generally the goal is applicable to various convolutional neural network architectures. There are multiple outstanding deep neural networks: GoogLeNet, OxfordNet, Tensorflow, etc.
 
-The GoogLeNet is a 22-layer deep convolutional network which takes 224 ${\times}$ 224 pixels as input and then pass them through multiple convolutional layers and stacking the inception modules.
+#### 2.2 Decode - Recurrent neural network
 
-#### 2.2 Convolutional features extraction
-The final features ${\{F^1,F^2,...,F^L\}}$ are obtained by processing the input image throughout the network.
+An “encoder” RNN reads the source sentence and transforms it into a rich fixed-length vector representation, which in turn in used as the initial hidden state of a “decoder” RNN that generates the target sentence.
 
-#### 2.3 VLAD encoding
-During instant image retrieval there are no training data available. In this situation, a pre-trained network may fail to produce representations that are invariant to translation or any other viewpoint changes. The local features can be a good candidate for representing instance level information while generalizing to other object categories.
+A particular form of recurrent nets, called LSTM, is introduced. The LSTM model is trained to predict each word of the sentence after it has seen the image as well as all preceding words as defined by a function.
 
-The VLAD encoding is effective for encoding local features into a single descriptor while achieving a favorable trade-off between retrieval accuracy and memory footprint.
 
-#### 2.4 Image retrieval
-After extracting the convolutional features and encoding them into VLAD descriptors, image retrieval can be done by calculating the L2 distance between the VLAD descriptors of the query image and the images in the database. PCA is needed to compress the original VLAD descriptors to lower dimension for efficiency.
+## 3. Datasets and Experiments
 
-### 3. Datasets and Experiments
-
-Various instance-level image datasets will be used:
-
-- Holidays dataset: 1491 images of 500 categories
-
-- Oxford dataset: 5062 images of landmarks in Oxford
-
-- Paris dataset: 6412 images of Paris
-
-For simplicity, the full images will be used for retrieval in the project rather than the queries in the datasets with specific rectangular regions which are the instances of interest to be retrieved.
+MSCOCO[2] dataset will be used as the training data. Various test image datasets will be used for testing, which will be decided later.
 
 The works will be within the scope of:
 
-- performance of convolutional features from different layers
+- the training process of RNN and the approaches to address the under-fitting and over-fitting.
 
-- the impact of changing scales
+- generation result analysis
 
-- the comparison between uncompressed representation and the low-dimensional feature extraction
+- Evaluation and improvement
 
-### References
-[1] Joe Yue-Hei Ng et al., Exploiting Local Features from Deep Networks for Image Retrieval, 2015
 
-[2] Ricardo da Silva Torres et al., Content-Based Image Retrieval: Theory and Applications, 2006
+## References
+[1] R.Kiros, R.Salakhutdinov, and R.S.Zemel, “Unifying visual semantic embeddings with multimodal neural language models,”
+in Transactions of the Association for Computational Linguistics, 2015.
+
+[2] T.-Y. Lin, M.Maire, S.Belongie, J. Hays, P.Perona, D.Ramanan,P.Dollar, and C. L.Zitnick, “Microsoft coco: Common objects in context,” arXiv:1405.0312, 2014.
