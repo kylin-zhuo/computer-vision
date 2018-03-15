@@ -1,3 +1,5 @@
+# Epipolar Geometry 
+
 Store the pairs of stereo in the folder `data`, each folder contains two images, named as `xxx-l.tif` and `xxx-r.tif`, representing the left and right images, respectively.
 
 Execute the program with `python main.py`.
